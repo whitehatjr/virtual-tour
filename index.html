@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Virtual Tour</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
+    <script src="js/CursorEvents.js"></script>
+    <script src="js/Tour.js"></script>
+    <script src="js/MorePlaces.js"></script>
+  </head>
+  <body>
+    <a-scene id="main-scene">
+      <a-assets id="assets-manager">
+        <img
+          id="background-image"
+          src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/sechelt.jpg"
+          crossorigin="anonymous"
+        />
+
+        <a-asset-item
+          id="earth"
+          src="./assets/models/earth/scene.gltf"
+        ></a-asset-item>
+
+        <a-asset-item
+          id="temple"
+          src="./assets/models/temple/scene.gltf"
+        ></a-asset-item>
+
+        <a-asset-item
+          id="building"
+          src="./assets/models/building/scene.gltf"
+        ></a-asset-item>
+      </a-assets>
+
+      <a-sky
+        id="main-container"
+        src="#background-image"
+        rotation="0 180 0"
+        radius="5000"
+        color="#fff"
+      ></a-sky>
+
+      <!-- Places Container -->
+      <a-entity id="places-container" cursor-listener></a-entity>
+
+      <!-- More Places Contaier -->
+      <a-entity
+        id="more-places-container"
+        show-more-places
+        cursor-listener
+      ></a-entity>
+
+      <!-- CAMERA -->
+      <a-camera id="camera" wasd-controls="enabled:false;">
+        <!-- App Title -->
+        <a-entity
+          id="app-title"
+          position="-1.05 0.73 -1"
+          text="font: exo2bold; align: center; width: 2.5; color: #fff; value: VIRTUAL TOUR"
+        >
+          <a-entity
+            id="app-subtitle"
+            position="0 -0.1 0"
+            text="font: dejavu; align: center; width: 1; color: #fff; value: Travle Around The World"
+          ></a-entity>
+        </a-entity>
+
+        <!-- App Logo -->
+        <a-entity
+          id="app-logo"
+          gltf-model="#earth"
+          position="1.25 0.78 -1"
+          scale="-0.00025  -0.0003 -0.00025"
+          animation="property: rotation; to: 0 360 0;  loop: true; dur: 10000;easing:linear;"
+        ></a-entity>
+
+        <!-- Earth Button -->
+        <a-entity
+          id="earth-model"
+          gltf-model="#earth"
+          position="0 0.6 -2"
+          scale="-0.002 -0.002 -0.002"
+          animation="property: rotation; to: 0 360 0;  loop: true; dur: 10000;easing:linear;"
+          cursor-listener
+          tour
+        >
+          <a-entity
+            id="temple-model1"
+            gltf-model="#temple"
+            position="61.2398 81.01892 -340.85578"
+            scale="200 200 200"
+            rotation="-230 180 0"
+          >
+          </a-entity>
+
+          <a-entity
+            id="temple-model2"
+            gltf-model="#temple"
+            position="0 250 400"
+            scale="200 200 200"
+            rotation="230 180 0"
+          >
+          </a-entity>
+
+          <a-entity
+            id="building-model"
+            gltf-model="#building"
+            position="0 -200 -30"
+            scale="70 70 70"
+            rotation="180 0 0"
+          >
+          </a-entity>
+        </a-entity>
+
+        <a-entity
+          id="message"
+          position="0 -0.6 -1"
+          text="font: exo2bold; align: center; width: 1.3; color: #ffaf4c; value: Click Anywhere To Start A Tour"
+          opacity="0.1"
+          animation="property: text.opacity; to:  0;  loop: true; dur: 4000;easing:linear;"
+        ></a-entity>
+
+        <!-- CURSOR -->
+        <a-entity
+          id="camera-cursor"
+          cursor
+          position="0 0 -1"
+          geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+          material="color: #fff; shader: flat"
+        >
+        </a-entity>
+      </a-camera>
+    </a-scene>
+  </body>
+</html>
