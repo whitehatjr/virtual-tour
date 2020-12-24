@@ -3,8 +3,8 @@ AFRAME.registerComponent("show-more-places", {
     this.createPlaces();
   },
   tick: function() {
-    const earthEL = document.querySelector("#earth-model");
-    const { state } = earthEL.getAttribute("tour");
+    const placesContainer = document.querySelector("#places-container");
+    const { state } = placesContainer.getAttribute("tour");
     if (state === "view" || state === "change-view") {
       this.el.setAttribute("visible", true);
     } else {

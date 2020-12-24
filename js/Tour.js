@@ -1,23 +1,17 @@
 AFRAME.registerComponent("tour", {
   schema: {
-    state: { type: "string", default: "initial_state" },
+    state: { type: "string", default: "places-list" },
     selectedCard: { type: "string", default: "#card1" },
     zoomAspectRatio: { type: "number", default: 1 }
   },
   init: function() {
-    this.earthEL = this.el;
-    this.messageEl = document.querySelector("#message");
-    this.placesContainer = document.querySelector("#places-container");
+    this.placesContainer = this.el;
     this.cameraEl = document.querySelector("#camera");
     this.createCards();
   },
   tick: function() {
     const { state } = this.el.getAttribute("tour");
-    if (state === "places-list") {
-      this.hideEl([this.earthEL, this.messageEl]);
-      this.unhideEl([this.placesContainer]);
-    }
-    //
+
     if (state === "view") {
       this.hideEl([this.placesContainer]);
       this.showView();
@@ -28,13 +22,7 @@ AFRAME.registerComponent("tour", {
       el.setAttribute("visible", false);
     });
   },
-  unhideEl: function(elList) {
-    elList.map(el => {
-      el.setAttribute("visible", true);
-    });
-  },
   createCards: function() {
-    this.placesContainer.setAttribute("visible", false);
     const thumbNailsRef = [
       {
         id: "taj-mahal",
@@ -69,7 +57,7 @@ AFRAME.registerComponent("tour", {
       // Border Element
       const borderEl = this.createBorder(position, item.id);
       // // Thubnail Element
-      const thumbNail = this.createThumbNail(item, item.id);
+      const thumbNail = this.createThumbNail(item);
       borderEl.appendChild(thumbNail);
 
       // Title Text Element
@@ -96,15 +84,14 @@ AFRAME.registerComponent("tour", {
     entityEl.setAttribute("cursor-listener", {});
     return entityEl;
   },
-  createThumbNail: function(item, id) {
+  createThumbNail: function(item) {
     const entityEl = document.createElement("a-entity");
-    entityEl.setAttribute("id", id);
     entityEl.setAttribute("visible", true);
     entityEl.setAttribute("geometry", {
       primitive: "circle",
       radius: 9
     });
-    entityEl.setAttribute("material", { src: item.url, opacity: 0.4 });
+    entityEl.setAttribute("material", { src: item.url });
     entityEl.setAttribute("cursor-listener", {});
     return entityEl;
   },
@@ -114,7 +101,7 @@ AFRAME.registerComponent("tour", {
       font: "exo2bold",
       align: "center",
       width: 60,
-      color: "#fff",
+      color: "#e65100",
       value: item.title
     });
     const elPosition = position;
@@ -126,30 +113,10 @@ AFRAME.registerComponent("tour", {
   showView: function() {
     const { selectedCard } = this.data;
     const skyEl = document.querySelector("#main-container");
-    if (selectedCard === "taj-mahal") {
-      skyEl.setAttribute("material", {
-        src: "../assets/360_images/taj_east_view.jpg"
-      });
-      skyEl.setAttribute("rotation", { x: 0, y: -60, z: 0 });
-    }
-
-    if (selectedCard === "budapest") {
-      skyEl.setAttribute("material", {
-        src: "../assets/360_images/taj_front_view.jpg"
-      });
-    }
-
-    if (selectedCard === "eiffel-tower") {
-      skyEl.setAttribute("material", {
-        src: "../assets/360_images/taj_inside_view.jpg"
-      });
-    }
-
-    if (selectedCard === "new-york-city") {
-      skyEl.setAttribute("material", {
-        src: "../assets/360_images/taj_back_view.jpg"
-      });
-    }
+    skyEl.setAttribute("material", {
+      src: `../assets/360_images/${selectedCard}/place-0.jpg`,
+      color: "#fff"
+    });
   },
   update: function() {
     window.addEventListener("keydown", e => {
